@@ -3,37 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GM Official – 500 Locket Designs</title>
+<title>GM Official - Name Logo Editor Pro</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cinzel:wght@600&family=Great+Vibes&family=Montserrat&display=swap" rel="stylesheet">
+
 <style>
 body{
   margin:0;
   background:#111;
   color:white;
-  font-family:'Montserrat',sans-serif;
+  font-family:Montserrat;
   text-align:center;
 }
 
 .header{
-  padding:20px;
-  font-size:28px;
-  font-weight:bold;
+  padding:15px;
+  font-size:26px;
   background:linear-gradient(90deg,#ff9966,#ff5e62);
+  font-weight:bold;
 }
 
 .controls{
-  background:#222;
+  background:#1e1e1e;
   padding:15px;
   display:flex;
   flex-wrap:wrap;
-  justify-content:center;
   gap:10px;
+  justify-content:center;
 }
 
 input,select,button{
-  padding:8px;
+  padding:7px;
+  border-radius:6px;
   border:none;
-  border-radius:8px;
   font-weight:bold;
 }
 
@@ -43,219 +45,174 @@ button{
 }
 
 .preview-area{
-  margin-top:20px;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
   gap:20px;
   padding:20px;
 }
 
-.design-card{
+.card{
   background:#1c1c1c;
   padding:10px;
-  border-radius:20px;
+  border-radius:15px;
 }
 
-.locket{
-  width:150px;
+.logo{
   height:150px;
-  margin:auto;
   display:flex;
   align-items:center;
   justify-content:center;
-  position:relative;
-  overflow:hidden;
-  transition:0.4s;
+  transition:0.3s;
 }
 
 .text{
-  z-index:2;
   font-weight:bold;
-  text-shadow:0 2px 10px rgba(0,0,0,0.7);
-}
-
-.download-btn{
-  margin-top:8px;
-  background:#00c853;
-  width:100%;
-}
-
-.order-btn{
-  margin-top:5px;
-  background:#2962ff;
-  width:100%;
 }
 </style>
 </head>
 <body>
 
-<div class="header">GM Official – 500 Locket Designs</div>
+<div class="header">GM Official - Name Logo Editor Pro</div>
 
 <div class="controls">
-  <input type="text" id="nameInput" placeholder="Enter Name">
 
-  <select id="shapeSelect">
-    <option value="circle">Circle</option>
-    <option value="square">Square</option>
-    <option value="heart">Heart</option>
-    <option value="star">Star</option>
-  </select>
+<input type="text" id="nameInput" placeholder="Enter Name">
 
-  <select id="fontSelect">
-    <option value="Playfair Display">Royal</option>
-    <option value="Cinzel">Luxury</option>
-    <option value="Great Vibes">Signature</option>
-    <option value="Montserrat">Modern</option>
-  </select>
+<select id="fontSelect">
+<option value="Playfair Display">Royal</option>
+<option value="Cinzel">Luxury</option>
+<option value="Great Vibes">Signature</option>
+<option value="Montserrat">Modern</option>
+</select>
 
-  <label>Size</label>
-  <input type="range" id="sizeRange" min="14" max="50" value="20">
+<input type="color" id="textColor">
 
-  <label>Rotate</label>
-  <input type="range" id="rotateRange" min="-180" max="180" value="0">
+<label>Size</label>
+<input type="range" id="sizeRange" min="20" max="80" value="40">
 
-  <select id="styleSelect">
-    <option value="none">Normal</option>
-    <option value="uppercase">UPPERCASE</option>
-    <option value="lowercase">lowercase</option>
-    <option value="capitalize">Capitalize</option>
-  </select>
+<label>Shadow</label>
+<input type="color" id="shadowColor">
 
-  <input type="file" id="photoUpload" accept="image/*">
+<label>Border</label>
+<input type="color" id="borderColor">
 
-  <select id="bgStyle">
-    <option value="normal">Normal</option>
-    <option value="gold">Gold 3D</option>
-    <option value="silver">Silver 3D</option>
-    <option value="glass">Glass 3D</option>
-  </select>
+<label>Border Size</label>
+<input type="range" id="borderSize" min="0" max="10" value="0">
 
-  <button style="background:#ff5e62;" onclick="generate500()">Generate 500 Designs</button>
+<select id="effectSelect">
+<option value="none">Normal</option>
+<option value="3d">3D Text</option>
+<option value="neon">Neon</option>
+<option value="glow">Glow</option>
+<option value="gradient">Gradient</option>
+</select>
+
+<button style="background:#00c853;" onclick="generateOne()">Generate One</button>
+<button style="background:#ff5e62;" onclick="generateMany()">Generate 50</button>
+<button style="background:#2962ff;" onclick="randomFontMode()">Random Font Mode</button>
+<button style="background:#ff9800;" onclick="clearAll()">Clear All</button>
+
 </div>
 
-<div class="preview-area" id="previewArea"></div>
+<div class="preview-area" id="preview"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
-const previewArea=document.getElementById("previewArea");
+const preview=document.getElementById("preview");
+let fonts=["Playfair Display","Cinzel","Great Vibes","Montserrat"];
 
-function randomColor(){
-  const h=Math.floor(Math.random()*360);
-  return `hsl(${h},70%,50%)`;
+function saveSettings(){
+  localStorage.setItem("name",nameInput.value);
 }
 
-function applyShape(locket,shape){
-  if(shape==="circle"){
-    locket.style.borderRadius="50%";
-    locket.style.clipPath="none";
-  } else if(shape==="square"){
-    locket.style.borderRadius="10px";
-    locket.style.clipPath="none";
-  } else if(shape==="heart"){
-    locket.style.clipPath="polygon(50% 90%, 0% 40%, 25% 10%, 50% 30%, 75% 10%, 100% 40%)";
-  } else if(shape==="star"){
-    locket.style.clipPath="polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)";
-  }
+function loadSettings(){
+  nameInput.value=localStorage.getItem("name")||"GM Official";
 }
+loadSettings();
 
-function apply3D(locket,style){
-  if(style==="gold"){
-    locket.style.background="linear-gradient(145deg,#d4af37,#f9e79f,#b8860b)";
-    locket.style.boxShadow="inset 6px 6px 12px rgba(255,255,255,0.5),inset -6px -6px 12px rgba(0,0,0,0.6),0 10px 20px rgba(0,0,0,0.8)";
-  } else if(style==="silver"){
-    locket.style.background="linear-gradient(145deg,#c0c0c0,#f0f0f0,#999)";
-    locket.style.boxShadow="inset 6px 6px 12px rgba(255,255,255,0.5),inset -6px -6px 12px rgba(0,0,0,0.6),0 10px 20px rgba(0,0,0,0.8)";
-  } else if(style==="glass"){
-    locket.style.background="rgba(255,255,255,0.1)";
-    locket.style.backdropFilter="blur(10px)";
-    locket.style.boxShadow="inset 0 0 15px rgba(255,255,255,0.5),0 10px 20px rgba(0,0,0,0.7)";
-  } else{
-    locket.style.background=randomColor();
-    locket.style.boxShadow="";
-    locket.style.clipPath="";
-  }
-}
+function createLogo(fontRandom=false){
 
-function createLocket(name,shape,font,photo,bgStyle){
   let card=document.createElement("div");
-  card.className="design-card";
+  card.className="card";
 
-  let locket=document.createElement("div");
-  locket.className="locket";
+  let logo=document.createElement("div");
+  logo.className="logo";
 
-  applyShape(locket,shape);
-  apply3D(locket,bgStyle);
+  let text=document.createElement("div");
+  text.className="text";
 
-  if(photo){
-    let img=document.createElement("img");
-    img.src=photo;
-    img.style.position="absolute";
-    img.style.width="100%";
-    img.style.height="100%";
-    img.style.objectFit="cover";
-    img.style.opacity="0.7";
-    locket.appendChild(img);
+  let name=nameInput.value||"GM";
+  text.innerText=name;
+
+  let font=fontRandom?fonts[Math.floor(Math.random()*fonts.length)]:fontSelect.value;
+  text.style.fontFamily=font;
+  text.style.fontSize=sizeRange.value+"px";
+  text.style.color=textColor.value;
+
+  // Border
+  text.style.webkitTextStroke=borderSize.value+"px "+borderColor.value;
+
+  // Shadow
+  text.style.textShadow="2px 2px 10px "+shadowColor.value;
+
+  let effect=effectSelect.value;
+
+  if(effect==="3d"){
+    text.style.textShadow="3px 3px 0 #999,6px 6px 0 #666,9px 9px 10px rgba(0,0,0,0.7)";
   }
 
-  let span=document.createElement("span");
-  span.className="text";
-  span.innerText=name;
-  span.style.fontFamily=font;
-  span.style.fontSize=document.getElementById("sizeRange").value+"px";
-  span.style.transform="rotate("+document.getElementById("rotateRange").value+"deg)";
-  span.style.textTransform=document.getElementById("styleSelect").value;
-  span.style.color=randomColor();
+  if(effect==="neon"){
+    text.style.color="#fff";
+    text.style.textShadow="0 0 5px "+textColor.value+
+    ",0 0 10px "+textColor.value+
+    ",0 0 20px "+textColor.value+
+    ",0 0 40px "+textColor.value;
+  }
 
-  locket.appendChild(span);
-  card.appendChild(locket);
+  if(effect==="glow"){
+    text.style.textShadow="0 0 20px "+textColor.value;
+  }
 
-  let downloadBtn=document.createElement("button");
-  downloadBtn.innerText="Download";
-  downloadBtn.className="download-btn";
-  downloadBtn.onclick=function(){
-    html2canvas(locket,{scale:3}).then(canvas=>{
-      let link=document.createElement("a");
-      link.download=name+"_Design.png";
-      link.href=canvas.toDataURL();
-      link.click();
-    });
-  };
-  card.appendChild(downloadBtn);
+  if(effect==="gradient"){
+    text.style.background="linear-gradient(45deg, red, yellow, cyan)";
+    text.style.webkitBackgroundClip="text";
+    text.style.webkitTextFillColor="transparent";
+  }
 
-  let orderBtn=document.createElement("button");
-  orderBtn.innerText="Submit Order";
-  orderBtn.className="order-btn";
-  orderBtn.onclick=function(){
-    alert("Order feature needs GitHub token.");
-  };
-  card.appendChild(orderBtn);
+  logo.appendChild(text);
+  card.appendChild(logo);
+
+  let delBtn=document.createElement("button");
+  delBtn.innerText="Delete";
+  delBtn.style.background="#ff1744";
+  delBtn.onclick=function(){ card.remove(); };
+  card.appendChild(delBtn);
 
   return card;
 }
 
-function generate500(){
-  previewArea.innerHTML="";
-  let name=document.getElementById("nameInput").value || "GM";
-  let shape=document.getElementById("shapeSelect").value;
-  let font=document.getElementById("fontSelect").value;
-  let photo=document.getElementById("photoUpload").files[0] ? URL.createObjectURL(document.getElementById("photoUpload").files[0]) : null;
-  let bgStyle=document.getElementById("bgStyle").value;
+function generateOne(){
+  preview.appendChild(createLogo());
+  saveSettings();
+}
 
-  for(let i=0;i<500;i++){
-    previewArea.appendChild(createLocket(name,shape,font,photo,bgStyle));
+function generateMany(){
+  preview.innerHTML="";
+  for(let i=0;i<50;i++){
+    preview.appendChild(createLogo());
   }
 }
 
-// Live Update
-document.getElementById("nameInput").addEventListener("input",generate500);
-document.getElementById("fontSelect").addEventListener("change",generate500);
-document.getElementById("shapeSelect").addEventListener("change",generate500);
-document.getElementById("sizeRange").addEventListener("input",generate500);
-document.getElementById("rotateRange").addEventListener("input",generate500);
-document.getElementById("styleSelect").addEventListener("change",generate500);
-document.getElementById("photoUpload").addEventListener("change",generate500);
-document.getElementById("bgStyle").addEventListener("change",generate500);
+function randomFontMode(){
+  preview.innerHTML="";
+  for(let i=0;i<50;i++){
+    preview.appendChild(createLogo(true));
+  }
+}
 
+function clearAll(){
+  preview.innerHTML="";
+}
 </script>
+
 </body>
 </html>

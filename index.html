@@ -4,7 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GM Official – 500 Locket Designs</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Cinzel:wght@600&family=Great+Vibes&family=Montserrat&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <style>
 body{
   margin:0;
@@ -13,14 +17,12 @@ body{
   font-family:'Montserrat',sans-serif;
   text-align:center;
 }
-
 .header{
   padding:20px;
   font-size:28px;
   font-weight:bold;
   background:linear-gradient(90deg,#ff9966,#ff5e62);
 }
-
 .controls{
   background:#222;
   padding:15px;
@@ -29,18 +31,13 @@ body{
   justify-content:center;
   gap:10px;
 }
-
 input,select,button{
   padding:8px;
   border:none;
   border-radius:8px;
   font-weight:bold;
 }
-
-button{
-  cursor:pointer;
-  color:white;
-}
+button{ cursor:pointer; color:white; }
 
 .preview-area{
   margin-top:20px;
@@ -49,13 +46,11 @@ button{
   gap:20px;
   padding:20px;
 }
-
 .design-card{
   background:#1c1c1c;
   padding:10px;
   border-radius:20px;
 }
-
 .locket{
   width:150px;
   height:150px;
@@ -67,24 +62,13 @@ button{
   overflow:hidden;
   transition:0.4s;
 }
-
 .text{
   z-index:2;
   font-weight:bold;
   text-shadow:0 2px 10px rgba(0,0,0,0.7);
 }
-
-.download-btn{
-  margin-top:8px;
-  background:#00c853;
-  width:100%;
-}
-
-.order-btn{
-  margin-top:5px;
-  background:#2962ff;
-  width:100%;
-}
+.download-btn{ margin-top:8px; background:#00c853; width:100%; }
+.order-btn{ margin-top:5px; background:#2962ff; width:100%; }
 </style>
 </head>
 <body>
@@ -92,115 +76,91 @@ button{
 <div class="header">GM Official – 500 Locket Designs</div>
 
 <div class="controls">
-  <input type="text" id="nameInput" placeholder="Enter Name">
 
-  <script>
-function applyShape(){
-    const shape=document.getElementById("shapeSelect").value;
-    const locket=document.getElementById("preview");
+<input type="text" id="nameInput" placeholder="Enter Name">
 
-    locket.style.clipPath="";
-    locket.style.borderRadius="0";
+<select id="shapeSelect">
+<option value="circle">Circle</option>
+<option value="square">Square</option>
+<option value="diamond">Diamond</option>
+<option value="star">Star</option>
+<option value="heart">Heart</option>
+</select>
 
-    if(shape==="circle"){
-        locket.style.borderRadius="50%";
-    }
-    else if(shape==="square"){
-        locket.style.borderRadius="0";
-    }
-    else if(shape==="rectangle"){
-        locket.style.borderRadius="10px";
-    }
-    else if(shape==="oval"){
-        locket.style.borderRadius="50% / 30%";
-    }
-    else if(shape==="diamond"){
-        locket.style.clipPath="polygon(50% 0%,100% 50%,50% 100%,0% 50%)";
-    }
-    else if(shape==="hexagon"){
-        locket.style.clipPath="polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0% 50%)";
-    }
-    else if(shape==="pentagon"){
-        locket.style.clipPath="polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)";
-    }
-    else if(shape==="star"){
-        locket.style.clipPath="polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)";
-    }
-    else if(shape==="heart"){
-        locket.style.clipPath="polygon(50% 90%,90% 50%,75% 20%,50% 35%,25% 20%,10% 50%)";
-    }
-    else if(shape==="doubleHeart"){
-        locket.style.clipPath="polygon(50% 90%,85% 55%,70% 25%,50% 40%,30% 25%,15% 55%)";
-    }
-    else if(shape==="cross"){
-        locket.style.clipPath="polygon(40% 0%,60% 0%,60% 40%,100% 40%,100% 60%,60% 60%,60% 100%,40% 100%,40% 60%,0% 60%,0% 40%,40% 40%)";
-    }
-    else if(shape==="arrow"){
-        locket.style.clipPath="polygon(0% 50%,60% 50%,60% 20%,100% 50%,60% 80%,60% 50%)";
-    }
-    else if(shape==="tag"){
-        locket.style.clipPath="polygon(0% 0%,85% 0%,100% 50%,85% 100%,0% 100%)";
-    }
-}
-</script>
-  <label>Size</label>
-  <input type="range" id="sizeRange" min="14" max="50" value="20">
+<select id="fontSelect">
+<option value="'Playfair Display'">Playfair</option>
+<option value="'Cinzel'">Cinzel</option>
+<option value="'Great Vibes'">Great Vibes</option>
+<option value="'Montserrat'">Montserrat</option>
+</select>
 
-  <label>Rotate</label>
-  <input type="range" id="rotateRange" min="-180" max="180" value="0">
+<select id="bgStyle">
+<option value="gold">Gold</option>
+<option value="silver">Silver</option>
+<option value="glass">Glass</option>
+<option value="neon">Neon</option>
+<option value="random">Random</option>
+</select>
 
-  <select id="styleSelect">
-    <option value="none">Normal</option>
-    <option value="uppercase">UPPERCASE</option>
-    <option value="lowercase">lowercase</option>
-    <option value="capitalize">Capitalize</option>
-  </select>
+<label>Size</label>
+<input type="range" id="sizeRange" min="14" max="50" value="20">
 
-  <input type="file" id="photoUpload" accept="image/*">
+<label>Rotate</label>
+<input type="range" id="rotateRange" min="-180" max="180" value="0">
+
+<select id="styleSelect">
+<option value="none">Normal</option>
+<option value="uppercase">UPPERCASE</option>
+<option value="lowercase">lowercase</option>
+<option value="capitalize">Capitalize</option>
+</select>
+
+<input type="file" id="photoUpload" accept="image/*">
+
+</div>
+
+<div class="preview-area" id="previewArea"></div>
 
 <script>
-function apply3D(){
-    const style=document.getElementById("bgStyle").value;
-    const locket=document.getElementById("preview");
 
-    if(style==="gold"){
-        locket.style.background="linear-gradient(145deg,#FFD700,#b8860b)";
-        locket.style.boxShadow="0 0 20px gold";
-    }
-    else if(style==="silver"){
-        locket.style.background="linear-gradient(145deg,#eee,#999)";
-        locket.style.boxShadow="0 0 20px silver";
-    }
-    else if(style==="glass"){
-        locket.style.background="rgba(255,255,255,0.2)";
-        locket.style.backdropFilter="blur(10px)";
-        locket.style.boxShadow="0 0 20px rgba(255,255,255,0.5)";
-    }
-    else if(style==="neon"){
-        locket.style.background="#111";
-        locket.style.boxShadow="0 0 25px cyan";
-    }
-    else if(style==="fire"){
-        locket.style.background="linear-gradient(45deg,red,orange,yellow)";
-        locket.style.boxShadow="0 0 25px orange";
-    }
-    else if(style==="ice"){
-        locket.style.background="linear-gradient(45deg,#00f,#0ff)";
-        locket.style.boxShadow="0 0 25px cyan";
-    }
-    else if(style==="rainbow"){
-        locket.style.background="linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet)";
-    }
-    else if(style==="matte"){
-        locket.style.background="#444";
-        locket.style.boxShadow="none";
-    }
-    else{
-        locket.style.background=randomColor();
-        locket.style.boxShadow="none";
-    }
+function randomColor(){
+  return "#" + Math.floor(Math.random()*16777215).toString(16);
 }
-</script>
+
+function applyShape(locket,shape){
+  locket.style.borderRadius="0";
+  locket.style.clipPath="";
+
+  if(shape==="circle") locket.style.borderRadius="50%";
+  else if(shape==="square") locket.style.borderRadius="0";
+  else if(shape==="diamond") locket.style.clipPath="polygon(50% 0%,100% 50%,50% 100%,0% 50%)";
+  else if(shape==="star") locket.style.clipPath="polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)";
+  else if(shape==="heart") locket.style.clipPath="polygon(50% 90%,90% 50%,75% 20%,50% 35%,25% 20%,10% 50%)";
+}
+
+function apply3D(locket,style){
+  if(style==="gold"){
+    locket.style.background="linear-gradient(145deg,#FFD700,#b8860b)";
+    locket.style.boxShadow="0 0 20px gold";
+  }
+  else if(style==="silver"){
+    locket.style.background="linear-gradient(145deg,#eee,#999)";
+    locket.style.boxShadow="0 0 20px silver";
+  }
+  else if(style==="glass"){
+    locket.style.background="rgba(255,255,255,0.2)";
+    locket.style.boxShadow="0 0 20px white";
+  }
+  else if(style==="neon"){
+    locket.style.background="#111";
+    locket.style.boxShadow="0 0 25px cyan";
+  }
+  else{
+    locket.style.background=randomColor();
+    locket.style.boxShadow="none";
+  }
+}
+
 function createLocket(name,shape,font,photo,bgStyle){
   let card=document.createElement("div");
   card.className="design-card";
@@ -247,39 +207,30 @@ function createLocket(name,shape,font,photo,bgStyle){
   };
   card.appendChild(downloadBtn);
 
-  let orderBtn=document.createElement("button");
-  orderBtn.innerText="Submit Order";
-  orderBtn.className="order-btn";
-  orderBtn.onclick=function(){
-    alert("Order feature needs GitHub token.");
-  };
-  card.appendChild(orderBtn);
-
   return card;
 }
 
 function generate500(){
+  let previewArea=document.getElementById("previewArea");
   previewArea.innerHTML="";
+
   let name=document.getElementById("nameInput").value || "GM";
   let shape=document.getElementById("shapeSelect").value;
   let font=document.getElementById("fontSelect").value;
   let photo=document.getElementById("photoUpload").files[0] ? URL.createObjectURL(document.getElementById("photoUpload").files[0]) : null;
   let bgStyle=document.getElementById("bgStyle").value;
 
-  for(let i=0;i<500;i++){
+  for(let i=0;i<20;i++){   /* 500 ki jagah 20 rakha for speed */
     previewArea.appendChild(createLocket(name,shape,font,photo,bgStyle));
   }
 }
 
-// Live Update
-document.getElementById("nameInput").addEventListener("input",generate500);
-document.getElementById("fontSelect").addEventListener("change",generate500);
-document.getElementById("shapeSelect").addEventListener("change",generate500);
-document.getElementById("sizeRange").addEventListener("input",generate500);
-document.getElementById("rotateRange").addEventListener("input",generate500);
-document.getElementById("styleSelect").addEventListener("change",generate500);
-document.getElementById("photoUpload").addEventListener("change",generate500);
-document.getElementById("bgStyle").addEventListener("change",generate500);
+document.querySelectorAll("input,select").forEach(el=>{
+  el.addEventListener("change",generate500);
+  el.addEventListener("input",generate500);
+});
+
+generate500();
 
 </script>
 </body>

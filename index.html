@@ -94,49 +94,55 @@ button{
 <div class="controls">
   <input type="text" id="nameInput" placeholder="Enter Name">
 
-  <select id="shapeSelect">
-  <!-- Basic Shapes -->
-  <option value="circle">Circle</option>
-  <option value="square">Square</option>
-  <option value="rectangle">Rectangle</option>
-  <option value="roundedSquare">Rounded Square</option>
-  <option value="oval">Oval</option>
+  <script>
+function applyShape(){
+    const shape=document.getElementById("shapeSelect").value;
+    const locket=document.getElementById("preview");
 
-  <!-- Love / Couple Shapes -->
-  <option value="heart">Heart</option>
-  <option value="doubleHeart">Double Heart</option>
-  <option value="brokenHeart">Broken Heart</option>
-  <option value="keyShape">Key Shape</option>
-  <option value="heartLock">Heart Lock</option>
+    locket.style.clipPath="";
+    locket.style.borderRadius="0";
 
-  <!-- Star & Polygon Shapes -->
-  <option value="star">Star</option>
-  <option value="diamond">Diamond Shape</option>
-  <option value="pentagon">Pentagon</option>
-  <option value="hexagon">Hexagon</option>
-  <option value="octagon">Octagon</option>
-
-  <!-- Jewellery / Premium Frames -->
-  <option value="crownFrame">Crown Frame</option>
-  <option value="vintageFrame">Vintage Frame</option>
-  <option value="floralFrame">Floral Frame</option>
-  <option value="mandalaDesign">Mandala Design</option>
-  <option value="ropeCircle">Rope Border Circle</option>
-
-  <!-- Islamic / Cultural Shapes -->
-  <option value="crescentMoon">Crescent Moon</option>
-  <option value="starCrescent">Star & Crescent</option>
-  <option value="mosqueDome">Mosque Dome</option>
-  <option value="arabicFrame">Arabic Frame</option>
-  <option value="calligraphyFrame">Calligraphy Frame</option>
-</select>
-  <select id="fontSelect">
-    <option value="Playfair Display">Royal</option>
-    <option value="Cinzel">Luxury</option>
-    <option value="Great Vibes">Signature</option>
-    <option value="Montserrat">Modern</option>
-  </select>
-
+    if(shape==="circle"){
+        locket.style.borderRadius="50%";
+    }
+    else if(shape==="square"){
+        locket.style.borderRadius="0";
+    }
+    else if(shape==="rectangle"){
+        locket.style.borderRadius="10px";
+    }
+    else if(shape==="oval"){
+        locket.style.borderRadius="50% / 30%";
+    }
+    else if(shape==="diamond"){
+        locket.style.clipPath="polygon(50% 0%,100% 50%,50% 100%,0% 50%)";
+    }
+    else if(shape==="hexagon"){
+        locket.style.clipPath="polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0% 50%)";
+    }
+    else if(shape==="pentagon"){
+        locket.style.clipPath="polygon(50% 0%,100% 38%,82% 100%,18% 100%,0% 38%)";
+    }
+    else if(shape==="star"){
+        locket.style.clipPath="polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)";
+    }
+    else if(shape==="heart"){
+        locket.style.clipPath="polygon(50% 90%,90% 50%,75% 20%,50% 35%,25% 20%,10% 50%)";
+    }
+    else if(shape==="doubleHeart"){
+        locket.style.clipPath="polygon(50% 90%,85% 55%,70% 25%,50% 40%,30% 25%,15% 55%)";
+    }
+    else if(shape==="cross"){
+        locket.style.clipPath="polygon(40% 0%,60% 0%,60% 40%,100% 40%,100% 60%,60% 60%,60% 100%,40% 100%,40% 60%,0% 60%,0% 40%,40% 40%)";
+    }
+    else if(shape==="arrow"){
+        locket.style.clipPath="polygon(0% 50%,60% 50%,60% 20%,100% 50%,60% 80%,60% 50%)";
+    }
+    else if(shape==="tag"){
+        locket.style.clipPath="polygon(0% 0%,85% 0%,100% 50%,85% 100%,0% 100%)";
+    }
+}
+</script>
   <label>Size</label>
   <input type="range" id="sizeRange" min="14" max="50" value="20">
 
@@ -152,84 +158,49 @@ button{
 
   <input type="file" id="photoUpload" accept="image/*">
 
- <select id="bgStyle">
-  <!-- Basic / Default -->
-  <option value="normal">Normal</option>
-
-  <!-- Classic 3D Materials -->
-  <option value="gold">Gold 3D</option>
-  <option value="silver">Silver 3D</option>
-  <option value="bronze">Bronze 3D</option>
-  <option value="platinum">Platinum 3D</option>
-  <option value="copper">Copper 3D</option>
-
-  <!-- Modern / Glass Effects -->
-  <option value="glass">Glass 3D</option>
-  <option value="frostedGlass">Frosted Glass</option>
-  <option value="transparentGlass">Transparent Glass</option>
-  <option value="neonGlow">Neon Glow</option>
-
-  <!-- Luxury Textures -->
-  <option value="marbleWhite">Marble White</option>
-  <option value="marbleBlack">Marble Black</option>
-  <option value="woodBrown">Wood Brown</option>
-  <option value="matteMetal">Matte Metal</option>
-  <option value="chrome">Chrome</option>
-
-  <!-- Premium Effects -->
-  <option value="fireEdge">Fire Edge</option>
-  <option value="liquidMetal">Liquid Metal</option>
-  <option value="smokeEffect">Smoke Effect</option>
-  <option value="diamondCut">Diamond Cut</option>
-  <option value="facetedCrystal">Faceted Crystal</option>
-</select>
-
-  <button style="background:#ff5e62;" onclick="generate500()">Generate 500 Designs</button>
-</div>
-
-<div class="preview-area" id="previewArea"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
-const previewArea=document.getElementById("previewArea");
+function apply3D(){
+    const style=document.getElementById("bgStyle").value;
+    const locket=document.getElementById("preview");
 
-function randomColor(){
-  const h=Math.floor(Math.random()*360);
-  return `hsl(${h},70%,50%)`;
+    if(style==="gold"){
+        locket.style.background="linear-gradient(145deg,#FFD700,#b8860b)";
+        locket.style.boxShadow="0 0 20px gold";
+    }
+    else if(style==="silver"){
+        locket.style.background="linear-gradient(145deg,#eee,#999)";
+        locket.style.boxShadow="0 0 20px silver";
+    }
+    else if(style==="glass"){
+        locket.style.background="rgba(255,255,255,0.2)";
+        locket.style.backdropFilter="blur(10px)";
+        locket.style.boxShadow="0 0 20px rgba(255,255,255,0.5)";
+    }
+    else if(style==="neon"){
+        locket.style.background="#111";
+        locket.style.boxShadow="0 0 25px cyan";
+    }
+    else if(style==="fire"){
+        locket.style.background="linear-gradient(45deg,red,orange,yellow)";
+        locket.style.boxShadow="0 0 25px orange";
+    }
+    else if(style==="ice"){
+        locket.style.background="linear-gradient(45deg,#00f,#0ff)";
+        locket.style.boxShadow="0 0 25px cyan";
+    }
+    else if(style==="rainbow"){
+        locket.style.background="linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet)";
+    }
+    else if(style==="matte"){
+        locket.style.background="#444";
+        locket.style.boxShadow="none";
+    }
+    else{
+        locket.style.background=randomColor();
+        locket.style.boxShadow="none";
+    }
 }
-
-function applyShape(locket,shape){
-  if(shape==="circle"){
-    locket.style.borderRadius="50%";
-    locket.style.clipPath="none";
-  } else if(shape==="square"){
-    locket.style.borderRadius="10px";
-    locket.style.clipPath="none";
-  } else if(shape==="heart"){
-    locket.style.clipPath="polygon(50% 90%, 0% 40%, 25% 10%, 50% 30%, 75% 10%, 100% 40%)";
-  } else if(shape==="star"){
-    locket.style.clipPath="polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)";
-  }
-}
-
-function apply3D(locket,style){
-  if(style==="gold"){
-    locket.style.background="linear-gradient(145deg,#d4af37,#f9e79f,#b8860b)";
-    locket.style.boxShadow="inset 6px 6px 12px rgba(255,255,255,0.5),inset -6px -6px 12px rgba(0,0,0,0.6),0 10px 20px rgba(0,0,0,0.8)";
-  } else if(style==="silver"){
-    locket.style.background="linear-gradient(145deg,#c0c0c0,#f0f0f0,#999)";
-    locket.style.boxShadow="inset 6px 6px 12px rgba(255,255,255,0.5),inset -6px -6px 12px rgba(0,0,0,0.6),0 10px 20px rgba(0,0,0,0.8)";
-  } else if(style==="glass"){
-    locket.style.background="rgba(255,255,255,0.1)";
-    locket.style.backdropFilter="blur(10px)";
-    locket.style.boxShadow="inset 0 0 15px rgba(255,255,255,0.5),0 10px 20px rgba(0,0,0,0.7)";
-  } else{
-    locket.style.background=randomColor();
-    locket.style.boxShadow="";
-    locket.style.clipPath="";
-  }
-}
-
+</script>
 function createLocket(name,shape,font,photo,bgStyle){
   let card=document.createElement("div");
   card.className="design-card";

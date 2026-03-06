@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GM Store Ultimate Pro</title>
+<title>GM Store – Fully Functional Pro</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 :root{
@@ -15,7 +15,7 @@
   --text-dark:#fff;
 }
 body{
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   margin:0;
   background:var(--bg-light);
   color:var(--text-light);
@@ -29,22 +29,38 @@ header{
   background:#2c3e50;
   color:white;
   padding:15px;
-  text-align:center;
   display:flex;
   justify-content:space-between;
   align-items:center;
   box-shadow:0 2px 10px rgba(0,0,0,.3);
 }
 header h1{margin:0;}
-#darkToggle{padding:5px 10px;border:none;border-radius:5px;cursor:pointer;background:var(--primary);color:white;}
+#darkToggle{
+  padding:5px 12px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  background:var(--primary);
+  color:white;
+  transition:.3s;
+}
+#darkToggle:hover{opacity:.8;}
 .container{max-width:1200px;margin:auto;padding:20px;}
-input,button,select{padding:8px;margin:5px;border-radius:6px;border:none;}
+input,button,select{padding:10px;margin:5px;border-radius:6px;border:none;transition:.3s;}
 input:focus,select:focus{outline:2px solid var(--primary);}
 button{background:var(--primary);color:white;cursor:pointer;transition:.2s;}
-button:hover{opacity:.9;transform:scale(1.02);}
+button:hover{opacity:.9;transform:scale(1.03);}
 button.delete{background:red;}
 button.edit{background:var(--secondary);}
-#dropArea{border:2px dashed var(--primary);border-radius:10px;padding:20px;text-align:center;color:var(--primary);cursor:pointer;transition:.3s;}
+#dropArea{
+  border:2px dashed var(--primary);
+  border-radius:10px;
+  padding:20px;
+  text-align:center;
+  color:var(--primary);
+  cursor:pointer;
+  transition:.3s;
+}
 #dropArea.dragover{background:rgba(39,174,96,0.1);}
 .products{
   display:grid;
@@ -56,75 +72,94 @@ button.edit{background:var(--secondary);}
   background:white;
   border-radius:10px;
   padding:10px;
-  box-shadow:0 3px 10px rgba(0,0,0,.3);
+  box-shadow:0 3px 10px rgba(0,0,0,.2);
   overflow:hidden;
   transition:.3s;
 }
 body.dark .card{background:#2c2c2c;color:white;}
-.card:hover{transform:scale(1.03);box-shadow:0 5px 15px rgba(0,0,0,.4);}
-.card img.main-img{width:100%;height:180px;object-fit:cover;border-radius:6px;}
+.card:hover{
+  transform:scale(1.04);
+  box-shadow:0 6px 20px rgba(0,0,0,.4);
+}
+.card img.main-img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:6px;
+  transition:.3s;
+}
+.card img.main-img:hover{transform:scale(1.05);}
 .thumb-slider{display:flex;justify-content:center;gap:5px;margin-top:5px;}
-.thumb-slider img{width:50px;height:50px;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:.3s;}
+.thumb-slider img{
+  width:50px;height:50px;border-radius:4px;
+  cursor:pointer;border:2px solid transparent;transition:.3s;
+}
 .thumb-slider img.active{border-color:var(--primary);}
 .price{font-size:18px;color:var(--primary);font-weight:bold;}
 .old{text-decoration:line-through;color:red;}
 .filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
-@media(max-width:768px){.products{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}input,select,button{width:100%;}}
+@media(max-width:768px){
+  .products{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}
+  input,select,button{width:100%;}
+}
 </style>
 </head>
 <body>
 
 <header>
-<h1>GM Store Ultimate Pro</h1>
+<h1>GM Store Pro</h1>
 <button id="darkToggle" onclick="toggleDark()">Dark Mode</button>
 </header>
 
 <div class="container">
-  <!-- Admin Login -->
-  <div id="loginPanel">
-    <h2>Admin Login</h2>
-    <input type="text" id="adminUser" placeholder="Username">
-    <input type="password" id="adminPass" placeholder="Password">
-    <button onclick="adminLogin()">Login</button>
+
+<!-- Admin Login -->
+<div id="loginPanel">
+  <h2>Admin Login</h2>
+  <input type="text" id="adminUser" placeholder="Username">
+  <input type="password" id="adminPass" placeholder="Password">
+  <button onclick="adminLogin()">Login</button>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminDashboard" style="display:none;">
+  <h2>Add / Edit Product</h2>
+  <input id="pname" placeholder="Product Name">
+  <input type="number" id="price" placeholder="Price PKR">
+  <input type="number" id="discount" placeholder="Discount %">
+  <input type="number" id="stock" placeholder="Stock">
+  <input id="whatsapp" placeholder="WhatsApp Number">
+  <input id="category" placeholder="Category">
+
+  <div id="dropArea"><p>Drag & Drop Images Here or Click to Select (Max 5)</p>
+    <input type="file" id="images" multiple accept="image/*" style="display:none;">
   </div>
 
-  <!-- Admin Dashboard -->
-  <div id="adminDashboard" style="display:none;">
-    <h2>Add / Edit Product</h2>
-    <input id="pname" placeholder="Product Name">
-    <input type="number" id="price" placeholder="Price PKR">
-    <input type="number" id="discount" placeholder="Discount %">
-    <input type="number" id="stock" placeholder="Stock">
-    <input id="whatsapp" placeholder="WhatsApp Number">
-    <input id="category" placeholder="Category">
+  <button id="addBtn" onclick="addProduct()">Add Product</button>
+  <button id="updateBtn" style="display:none" onclick="updateProduct()">Update Product</button>
 
-    <div id="dropArea"><p>Drag & Drop Images Here or Click to Select (Max 5)</p>
-      <input type="file" id="images" multiple accept="image/*" style="display:none;">
-    </div>
-
-    <button onclick="addProduct()">Add Product</button>
-    <button id="updateBtn" style="display:none" onclick="updateProduct()">Update Product</button>
-
-    <h2>Search & Category Filter</h2>
-    <div class="filter-bar">
-      <input type="text" id="search" placeholder="Search..." oninput="renderProducts()">
-      <select id="categoryFilter" onchange="renderProducts()"><option value="">All Categories</option></select>
-    </div>
-
-    <h2>Products</h2>
-    <div class="products" id="productList"></div>
-    <div id="loadMore" style="text-align:center;margin-top:10px;">
-      <button onclick="loadMore()">Load More</button>
-    </div>
+  <h2>Search & Category Filter</h2>
+  <div class="filter-bar">
+    <input type="text" id="search" placeholder="Search..." oninput="renderProducts()">
+    <select id="categoryFilter" onchange="renderProducts()"><option value="">All Categories</option></select>
   </div>
+
+  <h2>Products</h2>
+  <div class="products" id="productList"></div>
+  <div id="loadMore" style="text-align:center;margin-top:10px;">
+    <button onclick="loadMore()">Load More</button>
+  </div>
+</div>
 </div>
 
 <script>
+// Dark Mode Toggle
 function toggleDark(){
   document.body.classList.toggle('dark');
-  document.getElementById('darkToggle').textContent = document.body.classList.contains('dark')?'Light Mode':'Dark Mode';
+  document.getElementById('darkToggle').textContent=document.body.classList.contains('dark')?'Light Mode':'Dark Mode';
 }
 
+// Admin Login
 function adminLogin(){
   let u=document.getElementById("adminUser").value;
   let p=document.getElementById("adminPass").value;
@@ -135,7 +170,7 @@ function adminLogin(){
   } else { Swal.fire({icon:'error',title:'Invalid Credentials'});}
 }
 
-/* Drag & Drop */
+// Drag & Drop
 const dropArea=document.getElementById("dropArea");
 const fileInput=document.getElementById("images");
 dropArea.addEventListener('click',()=>fileInput.click());
@@ -143,22 +178,23 @@ dropArea.addEventListener('dragover',e=>{e.preventDefault();dropArea.classList.a
 dropArea.addEventListener('dragleave',e=>{dropArea.classList.remove('dragover');});
 dropArea.addEventListener('drop',e=>{e.preventDefault();dropArea.classList.remove('dragover');fileInput.files=e.dataTransfer.files;});
 
-/* Products Logic */
-let products = JSON.parse(localStorage.getItem("products"))||[];
+// Products Logic
+let products=JSON.parse(localStorage.getItem("products"))||[];
 let editIndex=null; let perPage=6; let currentPage=1;
 function save(){localStorage.setItem("products",JSON.stringify(products));}
 
+// Add Product
 function addProduct(){
-  let name=document.getElementById("pname").value;
+  let name=document.getElementById("pname").value.trim();
   let price=Number(document.getElementById("price").value);
   let discount=Number(document.getElementById("discount").value)||0;
   let stock=document.getElementById("stock").value||0;
-  let whatsapp=document.getElementById("whatsapp").value;
-  let category=document.getElementById("category").value;
-  let files=document.getElementById("images").files;
+  let whatsapp=document.getElementById("whatsapp").value.trim();
+  let category=document.getElementById("category").value.trim();
+  let files=fileInput.files;
   if(!name||!price||!whatsapp||files.length==0){Swal.fire({icon:'error',title:'Fill all fields'});return;}
   if(files.length>5){Swal.fire({icon:'error',title:'Max 5 images allowed'}); return;}
-
+  
   let promises=[];
   for(let i=0;i<files.length;i++){
     promises.push(new Promise(resolve=>{
@@ -167,6 +203,7 @@ function addProduct(){
       reader.readAsDataURL(files[i]);
     }));
   }
+
   Promise.all(promises).then(images=>{
     products.push({name,price,discount,stock,whatsapp,category,images});
     save(); renderProducts(true); clearForm();
@@ -181,12 +218,13 @@ function clearForm(){
   document.getElementById("stock").value="";
   document.getElementById("whatsapp").value="";
   document.getElementById("category").value="";
-  document.getElementById("images").value="";
+  fileInput.value="";
   editIndex=null; document.getElementById("updateBtn").style.display="none";
-  document.querySelector("button[onclick='addProduct()']").style.display="inline-block";
+  document.getElementById("addBtn").style.display="inline-block";
   currentPage=1;
 }
 
+// Render Products
 function renderProducts(reset=false){
   if(reset){currentPage=1;document.getElementById("productList").innerHTML="";}
   let list=document.getElementById("productList");
@@ -217,10 +255,10 @@ function renderProducts(reset=false){
 function loadMore(){currentPage++;renderProducts();}
 function orderProduct(i){let p=products[i];let final=(p.price-(p.price*p.discount/100)).toFixed(0);window.open(`https://wa.me/${p.whatsapp}?text=I want to order ${p.name} for PKR ${final}`);}
 function deleteProduct(i){Swal.fire({title:'Delete Product?',icon:'warning',showCancelButton:true,confirmButtonText:'Yes, delete it!'}).then(result=>{if(result.isConfirmed){products.splice(i,1);save();renderProducts();Swal.fire({icon:'success',title:'Deleted',timer:1000,showConfirmButton:false});}});}
-function editProduct(i){let p=products[i];document.getElementById("pname").value=p.name;document.getElementById("price").value=p.price;document.getElementById("discount").value=p.discount;document.getElementById("stock").value=p.stock;document.getElementById("whatsapp").value=p.whatsapp;document.getElementById("category").value=p.category;editIndex=i;document.getElementById("updateBtn").style.display="inline-block";document.querySelector("button[onclick='addProduct()']").style.display="none";}
-function updateProduct(){let i=editIndex;if(i===null)return;let name=document.getElementById("pname").value;let price=Number(document.getElementById("price").value);let discount=Number(document.getElementById("discount").value)||0;let stock=document.getElementById("stock").value||0;let whatsapp=document.getElementById("whatsapp").value;let category=document.getElementById("category").value;let files=document.getElementById("images").files;if(files.length>0){let images=[];let loaded=0;for(let j=0;j<files.length;j++){let reader=new FileReader();reader.onload=e=>{images.push(e.target.result);loaded++;if(loaded==files.length){products[i]={name,price,discount,stock,whatsapp,category,images};save();renderProducts(true);clearForm();Swal.fire({icon:'success',title:'Product Updated',timer:1200,showConfirmButton:false});}};reader.readAsDataURL(files[j]);}}else{products[i]={...products[i],name,price,discount,stock,whatsapp,category};save();renderProducts(true);clearForm();Swal.fire({icon:'success',title:'Product Updated',timer:1200,showConfirmButton:false});}}
+function editProduct(i){let p=products[i];document.getElementById("pname").value=p.name;document.getElementById("price").value=p.price;document.getElementById("discount").value=p.discount;document.getElementById("stock").value=p.stock;document.getElementById("whatsapp").value=p.whatsapp;document.getElementById("category").value=p.category;editIndex=i;document.getElementById("updateBtn").style.display="inline-block";document.getElementById("addBtn").style.display="none";}
+function updateProduct(){let i=editIndex;if(i===null)return;let name=document.getElementById("pname").value;let price=Number(document.getElementById("price").value);let discount=Number(document.getElementById("discount").value)||0;let stock=document.getElementById("stock").value||0;let whatsapp=document.getElementById("whatsapp").value;let category=document.getElementById("category").value;let files=fileInput.files;if(files.length>0){let images=[];let loaded=0;for(let j=0;j<files.length;j++){let reader=new FileReader();reader.onload=e=>{images.push(e.target.result);loaded++;if(loaded==files.length){products[i]={name,price,discount,stock,whatsapp,category,images};save();renderProducts(true);clearForm();Swal.fire({icon:'success',title:'Product Updated',timer:1200,showConfirmButton:false});}};reader.readAsDataURL(files[j]);}}else{products[i]={...products[i],name,price,discount,stock,whatsapp,category};save();renderProducts(true);clearForm();Swal.fire({icon:'success',title:'Product Updated',timer:1200,showConfirmButton:false});}}
+
 renderProducts();
 </script>
-
 </body>
 </html>

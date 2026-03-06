@@ -3,31 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GM Store Mega Pro</title>
-<!-- SweetAlert2 -->
+<title>GM Store Ultimate Pro</title>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-/* ===== Root & Themes ===== */
-:root {
-  --bg-light: #f4f6f9;
-  --bg-dark: #1e1e1e;
-  --text-light: #000;
-  --text-dark: #fff;
-  --primary: #27ae60;
-  --secondary: #f39c12;
+:root{
+  --primary:#27ae60;
+  --secondary:#f39c12;
+  --bg-light:#f4f6f9;
+  --bg-dark:#1e1e1e;
+  --text-light:#000;
+  --text-dark:#fff;
 }
 body{
-  font-family: Arial, sans-serif;
+  font-family:Arial, sans-serif;
   margin:0;
-  background: var(--bg-light);
-  color: var(--text-light);
-  transition: all 0.3s;
+  background:var(--bg-light);
+  color:var(--text-light);
+  transition:.3s;
 }
 body.dark{
-  background: var(--bg-dark);
-  color: var(--text-dark);
+  background:var(--bg-dark);
+  color:var(--text-dark);
 }
-/* ===== Header ===== */
 header{
   background:#2c3e50;
   color:white;
@@ -38,33 +35,17 @@ header{
   align-items:center;
   box-shadow:0 2px 10px rgba(0,0,0,.3);
 }
-header h1{margin:0;font-size:1.8em;}
-#darkToggle{padding:5px 10px;border:none;border-radius:5px;cursor:pointer;background:#27ae60;color:white;}
-/* ===== Container ===== */
-.container{ max-width:1200px; margin:auto; padding:20px; }
-/* ===== Inputs & Buttons ===== */
-input, button, select{
-  padding:8px; margin:5px; border-radius:6px; border:none; transition:.3s;
-}
-input:focus, select:focus{outline:2px solid var(--primary);}
-button{ background: var(--primary); color:white; cursor:pointer; }
+header h1{margin:0;}
+#darkToggle{padding:5px 10px;border:none;border-radius:5px;cursor:pointer;background:var(--primary);color:white;}
+.container{max-width:1200px;margin:auto;padding:20px;}
+input,button,select{padding:8px;margin:5px;border-radius:6px;border:none;}
+input:focus,select:focus{outline:2px solid var(--primary);}
+button{background:var(--primary);color:white;cursor:pointer;transition:.2s;}
+button:hover{opacity:.9;transform:scale(1.02);}
 button.delete{background:red;}
-button.edit{background: var(--secondary);}
-button:hover{opacity:.9; transform:scale(1.02);}
-/* ===== Drag & Drop ===== */
-#dropArea{
-  border:2px dashed var(--primary);
-  border-radius:10px;
-  padding:20px;
-  text-align:center;
-  margin-bottom:10px;
-  color: var(--primary);
-  cursor:pointer;
-  transition:.3s;
-}
-#dropArea.dragover{background: rgba(39,174,96,0.1);}
-#dropArea p{margin:0;}
-/* ===== Product Cards ===== */
+button.edit{background:var(--secondary);}
+#dropArea{border:2px dashed var(--primary);border-radius:10px;padding:20px;text-align:center;color:var(--primary);cursor:pointer;transition:.3s;}
+#dropArea.dragover{background:rgba(39,174,96,0.1);}
 .products{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
@@ -76,36 +57,30 @@ button:hover{opacity:.9; transform:scale(1.02);}
   border-radius:10px;
   padding:10px;
   box-shadow:0 3px 10px rgba(0,0,0,.3);
-  position:relative;
   overflow:hidden;
   transition:.3s;
 }
 body.dark .card{background:#2c2c2c;color:white;}
-.card:hover{transform:scale(1.02); animation:fadeIn 0.5s;}
-@keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
-.card img.main-img{ width:100%; height:180px; object-fit:cover; border-radius:6px; }
-.thumb-slider{ display:flex; justify-content:center; gap:5px; margin-top:5px; }
-.thumb-slider img{
-  width:50px; height:50px; border-radius:4px; cursor:pointer;
-  border:2px solid transparent; transition:.3s;
-}
-.thumb-slider img.active{ border-color: var(--primary); }
-.price{ font-size:18px; color: var(--primary); font-weight:bold; }
-.old{ text-decoration:line-through; color:red; }
-.filter-bar{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px; }
-/* ===== Responsive ===== */
-@media(max-width:768px){ .products{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));} input,select,button{width:100%;} }
+.card:hover{transform:scale(1.03);box-shadow:0 5px 15px rgba(0,0,0,.4);}
+.card img.main-img{width:100%;height:180px;object-fit:cover;border-radius:6px;}
+.thumb-slider{display:flex;justify-content:center;gap:5px;margin-top:5px;}
+.thumb-slider img{width:50px;height:50px;border-radius:4px;cursor:pointer;border:2px solid transparent;transition:.3s;}
+.thumb-slider img.active{border-color:var(--primary);}
+.price{font-size:18px;color:var(--primary);font-weight:bold;}
+.old{text-decoration:line-through;color:red;}
+.filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
+@media(max-width:768px){.products{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));}input,select,button{width:100%;}}
 </style>
 </head>
 <body>
 
 <header>
-<h1>GM Store Mega Pro</h1>
+<h1>GM Store Ultimate Pro</h1>
 <button id="darkToggle" onclick="toggleDark()">Dark Mode</button>
 </header>
 
 <div class="container">
-  <!-- Admin Login Panel -->
+  <!-- Admin Login -->
   <div id="loginPanel">
     <h2>Admin Login</h2>
     <input type="text" id="adminUser" placeholder="Username">
@@ -123,15 +98,14 @@ body.dark .card{background:#2c2c2c;color:white;}
     <input id="whatsapp" placeholder="WhatsApp Number">
     <input id="category" placeholder="Category">
 
-    <!-- Drag & Drop Upload -->
-    <div id="dropArea"><p>Drag & Drop Images Here or Click to Select</p>
+    <div id="dropArea"><p>Drag & Drop Images Here or Click to Select (Max 5)</p>
       <input type="file" id="images" multiple accept="image/*" style="display:none;">
     </div>
 
     <button onclick="addProduct()">Add Product</button>
     <button id="updateBtn" style="display:none" onclick="updateProduct()">Update Product</button>
 
-    <h2>Filters & Search</h2>
+    <h2>Search & Category Filter</h2>
     <div class="filter-bar">
       <input type="text" id="search" placeholder="Search..." oninput="renderProducts()">
       <select id="categoryFilter" onchange="renderProducts()"><option value="">All Categories</option></select>
@@ -139,20 +113,18 @@ body.dark .card{background:#2c2c2c;color:white;}
 
     <h2>Products</h2>
     <div class="products" id="productList"></div>
-    <div id="loadMore" style="text-align:center; margin-top:10px;">
+    <div id="loadMore" style="text-align:center;margin-top:10px;">
       <button onclick="loadMore()">Load More</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ===== Dark Mode Toggle ===== */
 function toggleDark(){
   document.body.classList.toggle('dark');
-  document.getElementById('darkToggle').textContent = document.body.classList.contains('dark') ? 'Light Mode':'Dark Mode';
+  document.getElementById('darkToggle').textContent = document.body.classList.contains('dark')?'Light Mode':'Dark Mode';
 }
 
-/* ===== Admin Login ===== */
 function adminLogin(){
   let u=document.getElementById("adminUser").value;
   let p=document.getElementById("adminPass").value;
@@ -163,22 +135,17 @@ function adminLogin(){
   } else { Swal.fire({icon:'error',title:'Invalid Credentials'});}
 }
 
-/* ===== Drag & Drop ===== */
+/* Drag & Drop */
 const dropArea=document.getElementById("dropArea");
 const fileInput=document.getElementById("images");
 dropArea.addEventListener('click',()=>fileInput.click());
-dropArea.addEventListener('dragover', e=>{e.preventDefault(); dropArea.classList.add('dragover');});
-dropArea.addEventListener('dragleave', e=>{dropArea.classList.remove('dragover');});
-dropArea.addEventListener('drop', e=>{
-  e.preventDefault(); dropArea.classList.remove('dragover');
-  fileInput.files=e.dataTransfer.files;
-});
+dropArea.addEventListener('dragover',e=>{e.preventDefault();dropArea.classList.add('dragover');});
+dropArea.addEventListener('dragleave',e=>{dropArea.classList.remove('dragover');});
+dropArea.addEventListener('drop',e=>{e.preventDefault();dropArea.classList.remove('dragover');fileInput.files=e.dataTransfer.files;});
 
-/* ===== Products Logic ===== */
+/* Products Logic */
 let products = JSON.parse(localStorage.getItem("products"))||[];
-let editIndex = null;
-let perPage=6; let currentPage=1;
-
+let editIndex=null; let perPage=6; let currentPage=1;
 function save(){localStorage.setItem("products",JSON.stringify(products));}
 
 function addProduct(){
@@ -192,19 +159,19 @@ function addProduct(){
   if(!name||!price||!whatsapp||files.length==0){Swal.fire({icon:'error',title:'Fill all fields'});return;}
   if(files.length>5){Swal.fire({icon:'error',title:'Max 5 images allowed'}); return;}
 
-  let images=[]; let loaded=0;
+  let promises=[];
   for(let i=0;i<files.length;i++){
-    let reader=new FileReader();
-    reader.onload=e=>{
-      images.push(e.target.result); loaded++;
-      if(loaded==files.length){
-        products.push({name,price,discount,stock,whatsapp,category,images});
-        save(); renderProducts(true); clearForm();
-        Swal.fire({icon:'success',title:'Product Added',timer:1200,showConfirmButton:false});
-      }
-    }
-    reader.readAsDataURL(files[i]);
+    promises.push(new Promise(resolve=>{
+      let reader=new FileReader();
+      reader.onload=e=>resolve(e.target.result);
+      reader.readAsDataURL(files[i]);
+    }));
   }
+  Promise.all(promises).then(images=>{
+    products.push({name,price,discount,stock,whatsapp,category,images});
+    save(); renderProducts(true); clearForm();
+    Swal.fire({icon:'success',title:'Product Added',timer:1200,showConfirmButton:false});
+  });
 }
 
 function clearForm(){
@@ -215,64 +182,43 @@ function clearForm(){
   document.getElementById("whatsapp").value="";
   document.getElementById("category").value="";
   document.getElementById("images").value="";
-  editIndex=null;
-  document.getElementById("updateBtn").style.display="none";
+  editIndex=null; document.getElementById("updateBtn").style.display="none";
   document.querySelector("button[onclick='addProduct()']").style.display="inline-block";
   currentPage=1;
 }
 
-/* ===== Render Products ===== */
 function renderProducts(reset=false){
-  if(reset){ currentPage=1; document.getElementById("productList").innerHTML=""; }
+  if(reset){currentPage=1;document.getElementById("productList").innerHTML="";}
   let list=document.getElementById("productList");
   let search=document.getElementById("search").value.toLowerCase();
   let catFilter=document.getElementById("categoryFilter").value;
   let categories=new Set();
-  let filtered=products.filter(p=>
-    (p.name.toLowerCase().includes(search)||p.category.toLowerCase().includes(search))
-    && (catFilter==""||p.category==catFilter)
-  );
+  let filtered=products.filter(p=>(p.name.toLowerCase().includes(search)||p.category.toLowerCase().includes(search))&&(catFilter==""||p.category==catFilter));
   let slice=filtered.slice(0,currentPage*perPage);
   list.innerHTML="";
   slice.forEach((p,i)=>{
     categories.add(p.category);
     let final=(p.price-(p.price*p.discount/100)).toFixed(0);
-    let card=document.createElement("div"); card.className="card";
-    card.innerHTML=`
-      <img src="${p.images[0]}" class="main-img" id="mainImg${i}">
-      <h3>${p.name}</h3>
-      <div>Category: ${p.category}</div>
-      <div class="old">PKR ${p.price}</div>
-      <div class="price">PKR ${final}</div>
-      <div>Stock: ${p.stock}</div>
-      <div class="thumb-slider" id="slider${i}"></div>
-      <button onclick="orderProduct(${i})">Order WhatsApp</button>
-      <button onclick="editProduct(${i})" class="edit">Edit</button>
-      <button onclick="deleteProduct(${i})" class="delete">Delete</button>
-    `;
+    let card=document.createElement("div");card.className="card";
+    card.innerHTML=`<img src="${p.images[0]}" class="main-img" id="mainImg${i}"><h3>${p.name}</h3><div>Category: ${p.category}</div><div class="old">PKR ${p.price}</div><div class="price">PKR ${final}</div><div>Stock: ${p.stock}</div><div class="thumb-slider" id="slider${i}"></div><button onclick="orderProduct(${i})">Order WhatsApp</button><button onclick="editProduct(${i})" class="edit">Edit</button><button onclick="deleteProduct(${i})" class="delete">Delete</button>`;
     list.appendChild(card);
     let slider=document.getElementById(`slider${i}`);
     p.images.forEach((img,j)=>{
-      let thumb=document.createElement("img"); thumb.src=img; if(j==0) thumb.classList.add("active");
-      thumb.onclick=()=>{document.getElementById(`mainImg${i}`).src=img; Array.from(slider.children).forEach(x=>x.classList.remove("active")); thumb.classList.add("active");};
+      let thumb=document.createElement("img");thumb.src=img;if(j==0)thumb.classList.add("active");
+      thumb.onclick=()=>{document.getElementById(`mainImg${i}`).src=img;Array.from(slider.children).forEach(x=>x.classList.remove("active"));thumb.classList.add("active");};
       slider.appendChild(thumb);
     });
   });
-  // category filter
-  let sel=document.getElementById("categoryFilter"); let current=sel.value;
-  sel.innerHTML='<option value="">All Categories</option>';
-  categories.forEach(c=>{let opt=document.createElement("option"); opt.value=c; opt.text=c; if(c==current) opt.selected=true; sel.appendChild(opt);});
-  // show/hide Load More
+  let sel=document.getElementById("categoryFilter");let current=sel.value;sel.innerHTML='<option value="">All Categories</option>';
+  categories.forEach(c=>{let opt=document.createElement("option");opt.value=c;opt.text=c;if(c==current)opt.selected=true;sel.appendChild(opt);});
   document.getElementById("loadMore").style.display=(filtered.length>slice.length)?"block":"none";
 }
 
-function loadMore(){currentPage++; renderProducts();}
-
-function orderProduct(i){let p=products[i]; let final=(p.price-(p.price*p.discount/100)).toFixed(0); window.open(`https://wa.me/${p.whatsapp}?text=I want to order ${p.name} for PKR ${final}`);}
-function deleteProduct(i){Swal.fire({title:'Delete Product?',icon:'warning',showCancelButton:true,confirmButtonText:'Yes, delete it!'}).then((result)=>{if(result.isConfirmed){products.splice(i,1); save(); renderProducts(); Swal.fire({icon:'success',title:'Deleted',timer:1000,showConfirmButton:false});}});}
-function editProduct(i){let p=products[i]; document.getElementById("pname").value=p.name; document.getElementById("price").value=p.price; document.getElementById("discount").value=p.discount; document.getElementById("stock").value=p.stock; document.getElementById("whatsapp").value=p.whatsapp; document.getElementById("category").value=p.category; editIndex=i; document.getElementById("updateBtn").style.display="inline-block"; document.querySelector("button[onclick='addProduct()']").style.display="none";}
-function updateProduct(){let i=editIndex; if(i===null) return; let name=document.getElementById("pname").value; let price=Number(document.getElementById("price").value); let discount=Number(document.getElementById("discount").value)||0; let stock=document.getElementById("stock").value||0; let whatsapp=document.getElementById("whatsapp").value; let category=document.getElementById("category").value; let files=document.getElementById("images").files; if(files.length>0){let images=[]; let loaded=0; for(let j=0;j<files.length;j++){let reader=new FileReader(); reader.onload=e=>{images.push(e.target.result); loaded++; if(loaded==files.length){products[i]={name,price,discount,stock,whatsapp,category,images}; save(); renderProducts(true); clearForm(); Swal.fire({icon:'success',title:'Product Updated',timer:1200,showConfirmButton:false});}} reader.readAsDataURL(files[j]);}} else{products[i]={...products[i],name,price,discount,stock,whatsapp,category}; save(); renderProducts(true); clearForm(); Swal.fire({icon:'success',title:'Product Updated',timer:1200,showConfirmButton:false});}}
-
+function loadMore(){currentPage++;renderProducts();}
+function orderProduct(i){let p=products[i];let final=(p.price-(p.price*p.discount/100)).toFixed(0);window.open(`https://wa.me/${p.whatsapp}?text=I want to order ${p.name} for PKR ${final}`);}
+function deleteProduct(i){Swal.fire({title:'Delete Product?',icon:'warning',showCancelButton:true,confirmButtonText:'Yes, delete it!'}).then(result=>{if(result.isConfirmed){products.splice(i,1);save();renderProducts();Swal.fire({icon:'success',title:'Deleted',timer:1000,showConfirmButton:false});}});}
+function editProduct(i){let p=products[i];document.getElementById("pname").value=p.name;document.getElementById("price").value=p.price;document.getElementById("discount").value=p.discount;document.getElementById("stock").value=p.stock;document.getElementById("whatsapp").value=p.whatsapp;document.getElementById("category").value=p.category;editIndex=i;document.getElementById("updateBtn").style.display="inline-block";document.querySelector("button[onclick='addProduct()']").style.display="none";}
+function updateProduct(){let i=editIndex;if(i===null)return;let name=document.getElementById("pname").value;let price=Number(document.getElementById("price").value);let discount=Number(document.getElementById("discount").value)||0;let stock=document.getElementById("stock").value||0;let whatsapp=document.getElementById("whatsapp").value;let category=document.getElementById("category").value;let files=document.getElementById("images").files;if(files.length>0){let images=[];let loaded=0;for(let j=0;j<files.length;j++){let reader=new FileReader();reader.onload=e=>{images.push(e.target.result);loaded++;if(loaded==files.length){products[i]={name,price,discount,stock,whatsapp,category,images};save();renderProducts(true);clearForm();Swal.fire({icon:'success',title:'Product Updated',timer:1200,showConfirmButton:false});}};reader.readAsDataURL(files[j]);}}else{products[i]={...products[i],name,price,discount,stock,whatsapp,category};save();renderProducts(true);clearForm();Swal.fire({icon:'success',title:'Product Updated',timer:1200,showConfirmButton:false});}}
 renderProducts();
 </script>
 
